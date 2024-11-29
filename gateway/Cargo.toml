@@ -1,0 +1,18 @@
+[package]
+name = "gateway"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+serde = { version = "1.0.210", features = ["derive"] }
+tokio = { version = "1.40.0", features = ["full"] }
+uuid = { version = "1.10.0", features = ["serde", "v4"] }
+warp = "0.3.7"
+structs = { path = "../structs" }
+requester = { path = "../requester" }
+jwtchecker = { path = "../jwtchecker" }
+custom_error = "1.9.2"
+serde_json = "1.0.128"
+
+[dev-dependencies]
+async-trait = "0.1.83"
