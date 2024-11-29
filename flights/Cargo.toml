@@ -1,0 +1,16 @@
+[package]
+name = "flights"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+async-trait = "0.1.82"
+chrono = { version = "0.4.38", features = ["serde"] }
+custom_error = "1.9.2"
+serde = { version = "1.0.210", features = ["derive"] }
+tokio = { version = "1.40.0", features = ["full"] }
+tokio-postgres = { version = "0.7.12", features = ["with-uuid-1", "with-chrono-0_4"] }
+uuid = { version = "1.10.0", features = ["serde", "v4"] }
+warp = "0.3.7"
+structs = { path = "../structs" }
+requester = { path = "../requester" }

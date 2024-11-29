@@ -4,32 +4,37 @@
 	"values": [
 		{
 			"key": "serviceUrl",
-			"value": "",
+			"value": "https://k8s.huds.su",
+			"enabled": true
+		},
+		{
+			"key": "realm",
+			"value": "master",
 			"enabled": true
 		},
 		{
 			"key": "identityProviderUrl",
-			"value": "",
+			"value": "https://cloak.huds.su",
 			"enabled": true
 		},
 		{
 			"key": "username",
-			"value": "",
+			"value": "test-max",
 			"enabled": true
 		},
 		{
 			"key": "password",
-			"value": "",
+			"value": "password",
 			"enabled": true
 		},
 		{
 			"key": "clientId",
-			"value": "",
+			"value": "rsoi",
 			"enabled": true
 		},
 		{
 			"key": "clientSecret",
-			"value": "",
+			"value": "ZoJeJIj2HbOg5E2ZouDmQUxlTbgZKjA1",
 			"enabled": true
 		}
 	],

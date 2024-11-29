@@ -1,0 +1,11 @@
+[package]
+name = "jwtchecker"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+custom_error = "1.9.2"
+jsonwebtoken = { version = "9.3.0", features = ["use_pem"] }
+serde = "1.0.215"

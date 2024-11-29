@@ -1,0 +1,69 @@
+fullnameOverride: postgres
+global:
+  postgresql:
+    auth:
+      user: "program"
+      postgresPassword: "k8spostgres"
+      password: "k8spostgres"
+    passwordUpdateJob:
+      enabled: true
+
+primary:
+  initdb:
+    scripts:
+      10-create-user-and-databases.sh: |
+        export PGPASSWORD=k8spostgres
+
+        psql -c "DROP DATABASE tickets;" || true
+        psql -c "DROP DATABASE flights;" || true
+        psql -c "DROP DATABASE privileges;" || true
+        psql -c "DROP ROLE program;" || true
+        
+        psql -c "CREATE ROLE program WITH PASSWORD 'k8spostgres';"
+        psql -c "ALTER ROLE program WITH LOGIN;"
+  
+        psql -c "CREATE DATABASE tickets;"
+        psql -c "GRANT ALL PRIVILEGES ON DATABASE tickets TO program;"
+
+        psql -c "CREATE DATABASE flights;"
+        psql -c "GRANT ALL PRIVILEGES ON DATABASE flights TO program;"
+
+        psql -c "CREATE DATABASE privileges;"
+        psql -c "GRANT ALL PRIVILEGES ON DATABASE privileges TO program;"
+
+        psql -d privileges -c "
+          CREATE TABLE privilege
+          (
+              id       SERIAL PRIMARY KEY,
+              username VARCHAR(80) NOT NULL UNIQUE,
+              status   VARCHAR(80) NOT NULL DEFAULT 'BRONZE'
+                  CHECK (status IN ('BRONZE', 'SILVER', 'GOLD')),
+              balance  INT
+          );
+
+          INSERT INTO privilege(username, status, balance) VALUES ('test-max', 'BRONZE', 0);
+        "
+
+        psql -d flights -c "
+          CREATE TABLE airport
+          (
+              id      SERIAL PRIMARY KEY,
+              name    VARCHAR(255),
+              city    VARCHAR(255),
+              country VARCHAR(255)
+          );
+
+          CREATE TABLE flight
+          (
+              id              SERIAL PRIMARY KEY,
+              flight_number   VARCHAR(20)              NOT NULL,
+              datetime        TIMESTAMP WITH TIME ZONE NOT NULL,
+              from_airport_id INT REFERENCES airport (id),
+              to_airport_id   INT REFERENCES airport (id),
+              price           INT                      NOT NULL
+          );
+
+          INSERT INTO airport(name, city, country) VALUES ('Шереметьево', 'Москва', 'Россия');
+          INSERT INTO airport(name, city, country) VALUES ('Пулково', 'Санкт-Петербург', 'Россия');
+          INSERT INTO flight(flight_number, datetime, from_airport_id, to_airport_id, price) VALUES ('AFL031', '2021-10-08 23:00:00.000 +0300', 2, 1, 1500);
+        "
