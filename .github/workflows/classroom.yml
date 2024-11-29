@@ -61,10 +61,10 @@ jobs:
 
             helm upgrade postgres oci://registry-1.docker.io/bitnamicharts/postgresql -f booking-system/postgres.yml --install --wait --atomic
 
-            helm upgrade flights gruntwork/k8s-service -f booking-system/flights.yml --install --wait --atomic --set "envVars.RSA_PUB=$RSA_PUB"
-            helm upgrade tickets gruntwork/k8s-service -f booking-system/tickets.yml --install --wait --atomic --set "envVars.RSA_PUB=$RSA_PUB"
-            helm upgrade bonuses gruntwork/k8s-service -f booking-system/bonuses.yml --install --wait --atomic --set "envVars.RSA_PUB=$RSA_PUB"
-            helm upgrade gateway gruntwork/k8s-service -f booking-system/gateway.yml --install --wait --atomic --set "envVars.RSA_PUB=$RSA_PUB"
+            helm upgrade flights gruntwork/k8s-service -f booking-system/flights.yml --install --wait --atomic --set "envVars.RSA_PUB=${{ secrets.RSA_PUB }}"
+            helm upgrade tickets gruntwork/k8s-service -f booking-system/tickets.yml --install --wait --atomic --set "envVars.RSA_PUB=${{ secrets.RSA_PUB }}"
+            helm upgrade bonuses gruntwork/k8s-service -f booking-system/bonuses.yml --install --wait --atomic --set "envVars.RSA_PUB=${{ secrets.RSA_PUB }}"
+            helm upgrade gateway gruntwork/k8s-service -f booking-system/gateway.yml --install --wait --atomic --set "envVars.RSA_PUB=${{ secrets.RSA_PUB }}"
 
           kubeconfig: '${{ secrets.KUBECONFIG }}'
           overrule_existing_kubeconfig: "true"
